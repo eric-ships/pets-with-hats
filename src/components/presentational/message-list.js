@@ -14,9 +14,13 @@ const propTypes = {
 }
 
 function MessageList({ ids, messagesById }) {
-  const messages = ids.map(id => messagesById[id]).sort(function(m1, m2) {
-    return Date(m1.timestamp) < Date(m2.timestamp)
-  })
+  function sortMessagesByRecency(msg1, msg2) {
+    if (new Date(msg1.timestamp) < new Date(msg2.timestamp)) return 1
+    if (new Date(msg1.timestamp) > new Date(msg2.timestamp)) return -1
+    return 0
+  }
+
+  const messages = ids.map(id => messagesById[id]).sort(sortMessagesByRecency)
 
   return (
     <ul className="messages">
@@ -30,7 +34,7 @@ function MessageList({ ids, messagesById }) {
             </div>
 
             <div>
-              {Date(timestamp)}
+              {new Date(timestamp).toString()}
             </div>
 
             <div>

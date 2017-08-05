@@ -9,7 +9,7 @@ function generateMessages() {
     faker.random.number({ min: originalMessageCount, max: 1000 }) - 1
 
   for (let i = 0; i <= originalMessageCount; i++) {
-    const timestamp = Date.parse(faker.date.past())
+    const timestamp = Date.parse(faker.date.past(2, '2017-08-05'))
 
     messages.push({
       id: i,
