@@ -1,3 +1,4 @@
+import MessageBoard from './container/message-board'
 import React from 'react'
 
 function App() {
@@ -7,9 +8,7 @@ function App() {
         {'Pets with Hats'}
       </h1>
 
-      <p className="App-intro">
-        {'Welcome to Pets with Hats'}
-      </p>
+      <MessageBoard />
     </div>
   )
 }
