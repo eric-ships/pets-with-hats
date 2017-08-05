@@ -27,7 +27,31 @@ class MessageBoard extends Component {
    * @param {Object[]} messages
    */
   storeMessages(messages) {
-    console.log(messages)
+    const { messagesById, originalMessageIds } = this.state
+
+    messages.forEach(function(message) {
+      const { id, parent } = message
+
+      if (parent === undefined) {
+        originalMessageIds.push(id)
+      } else {
+        const { responses = [] } = messagesById[parent] || {}
+
+        responses.push(id)
+
+        messagesById[parent] = {
+          ...messagesById[parent],
+          responses,
+        }
+      }
+
+      messagesById[id] = message
+    })
+
+    this.setState({
+      messagesById,
+      originalMessageIds,
+    })
   }
 
   render() {
