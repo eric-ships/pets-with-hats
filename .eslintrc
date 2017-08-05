@@ -1,0 +1,49 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+    },
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+  },
+  "plugins": [
+    "react",
+    "prettier",
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/all",
+    "prettier",
+    "prettier/react",
+  ],
+  "globals": {
+    "Promise": true,
+    "process": true,
+  },
+  "rules": {
+    "prettier/prettier": ["error", {
+      "printWidth": 80,
+      "singleQuote": true,
+      "semi": false,
+      "trailingComma": "all",
+      "bracketSpacing": true,
+      "jsxBracketSameLine": false,
+    }],
+    "no-console": 0,
+    "sort-imports": [2, {
+      "ignoreCase": true,
+      "ignoreMemberSort": false,
+      "memberSyntaxSortOrder": ["single", "multiple", "all", "none"]
+    }],
+    "react/jsx-filename-extension": 0,
+    "react/jsx-handler-names": 0,
+    "react/jsx-no-bind": 0,
+    "react/no-multi-comp": 0,
+    "react/no-set-state": 0,
+    "react/require-optimization": 0,
+  }
+}

@@ -1,10 +1,11 @@
-import faker from 'faker';
+import faker from 'faker'
 
 const messages = []
 
 function generateMessages() {
   const originalMessageCount = faker.random.number({ min: 1, max: 200 }) - 1
-  const totalMessageCount = faker.random.number({ min: originalMessageCount, max: 1000 }) - 1
+  const totalMessageCount =
+    faker.random.number({ min: originalMessageCount, max: 1000 }) - 1
 
   for (let i = 0; i <= originalMessageCount; i++) {
     messages.push({
@@ -34,13 +35,13 @@ generateMessages()
 export function getMessages(callback) {
   setTimeout(function() {
     callback(messages)
-  }, 500);
-};
+  }, 500)
+}
 
 /**
  * POST mock
  * @param {Object} message
  */
-export function postMessage(message) {
+export function postMessage() {
   // TODO
 }
