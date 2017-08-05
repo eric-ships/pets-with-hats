@@ -60,7 +60,7 @@ class MessageBoard extends Component {
 
     return (
       <div>
-        <h3>
+        <h3 className="subtitle is-3">
           {'Message Board'}
         </h3>
 

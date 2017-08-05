@@ -29,22 +29,24 @@ function MessageList({ ids, messagesById }) {
   const messages = ids.map(id => messagesById[id]).sort(sortMessagesByRecency)
 
   return (
-    <ul className="messages">
+    <ul className="messages-list" style={{ margin: '1rem 0 0 0' }}>
       {messages.map(message => {
         const { id, message: text, responses, timestamp } = message // eslint-disable-line
 
         return (
-          <li key={id}>
-            <div>
-              {text}
-            </div>
+          <li className="message is-dark is-small" key={id}>
+            <div className="message-body">
+              <div>
+                {text}
+              </div>
 
-            <div>
-              {new Date(timestamp).toString()}
-            </div>
+              <div>
+                {new Date(timestamp).toString()}
+              </div>
 
-            <div>
-              <Messages ids={responses} messagesById={messagesById} />
+              <div>
+                <Messages ids={responses} messagesById={messagesById} />
+              </div>
             </div>
           </li>
         )
