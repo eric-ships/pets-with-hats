@@ -1,3 +1,4 @@
+import Messages from '../container/messages'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -14,6 +15,11 @@ const propTypes = {
 }
 
 function MessageList({ ids, messagesById }) {
+  /**
+   * @param {Object} msg1
+   * @param {Object} msg2
+   * @return {Number} [-1, 0, 1]
+   */
   function sortMessagesByRecency(msg1, msg2) {
     if (new Date(msg1.timestamp) < new Date(msg2.timestamp)) return 1
     if (new Date(msg1.timestamp) > new Date(msg2.timestamp)) return -1
@@ -38,7 +44,7 @@ function MessageList({ ids, messagesById }) {
             </div>
 
             <div>
-              {id}
+              <Messages ids={responses} messagesById={messagesById} />
             </div>
           </li>
         )

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 const propTypes = {
-  ids: PropTypes.arrayOf(PropTypes.number).isRequired,
-  isVisible: PropTypes.bool,
+  areOriginalMessageIds: PropTypes.bool,
+  ids: PropTypes.arrayOf(PropTypes.number),
   messagesById: PropTypes.shape({
     id: PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -16,29 +16,39 @@ const propTypes = {
 }
 
 const defaultProps = {
-  isVisible: false,
+  ids: [],
+  areOriginalMessageIds: false,
 }
 
 class Messages extends Component {
   constructor(props) {
     super(props)
+    this.toggleVisibility = this.toggleVisibility.bind(this)
 
     this.state = {
-      isVisible: props.isVisible,
+      isVisible: props.areOriginalMessageIds,
     }
   }
 
-  render() {
-    const { ids, messagesById } = this.props
+  toggleVisibility() {
+    this.setState({
+      isVisible: !this.state.isVisible,
+    })
+  }
 
-    if (this.state.isVisible) {
-      return <MessageList ids={ids} messagesById={messagesById} />
-    }
+  render() {
+    const { areOriginalMessageIds, ids, messagesById } = this.props
+    const { isVisible } = this.state
 
     return (
-      <button>
-        {`responses ${ids.length}`}
-      </button>
+      <div className="messages">
+        {!areOriginalMessageIds &&
+          <button disabled={ids.length === 0} onClick={this.toggleVisibility}>
+            {`${isVisible ? 'hide' : 'show'} responses (${ids.length})`}
+          </button>}
+
+        {isVisible && <MessageList ids={ids} messagesById={messagesById} />}
+      </div>
     )
   }
 }

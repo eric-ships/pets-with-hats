@@ -65,8 +65,8 @@ class MessageBoard extends Component {
         </h3>
 
         <Messages
+          areOriginalMessageIds
           ids={originalMessageIds}
-          isVisible
           messagesById={messagesById}
         />
       </div>
