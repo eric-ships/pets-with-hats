@@ -1,4 +1,5 @@
 import { getMessages } from '../../mock-server'
+import Messages from '../container/messages'
 import React, { Component } from 'react'
 
 class MessageBoard extends Component {
@@ -8,8 +9,8 @@ class MessageBoard extends Component {
     this.storeMessages = this.storeMessages.bind(this)
 
     this.state = {
-      originalMessageIds: [],
       messagesById: {},
+      originalMessageIds: [],
     }
   }
 
@@ -55,10 +56,20 @@ class MessageBoard extends Component {
   }
 
   render() {
+    const { messagesById, originalMessageIds } = this.state
+
     return (
-      <h3>
-        {'Message Board'}
-      </h3>
+      <div>
+        <h3>
+          {'Message Board'}
+        </h3>
+
+        <Messages
+          ids={originalMessageIds}
+          isVisible
+          messagesById={messagesById}
+        />
+      </div>
     )
   }
 }
