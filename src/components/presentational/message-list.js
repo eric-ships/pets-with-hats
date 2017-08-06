@@ -35,7 +35,7 @@ function MessageList({ ids, messagesById, postMessage }) {
         const { id, message: text, responses, timestamp } = message // eslint-disable-line
 
         return (
-          <li className="message is-dark is-small" key={id}>
+          <li className="message is-dark is-small" key={`message-${id}`}>
             <div className="message-body">
               <div>
                 {text}
@@ -48,7 +48,7 @@ function MessageList({ ids, messagesById, postMessage }) {
               <div>
                 <Messages
                   ids={responses}
-                  key={id}
+                  key={`messages-${id}`}
                   messagesById={messagesById}
                   parent={id}
                   postMessage={postMessage}

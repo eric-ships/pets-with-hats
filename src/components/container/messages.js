@@ -155,6 +155,7 @@ class Messages extends Component {
         {isVisible &&
           <MessageList
             ids={ids}
+            key={parent ? parent : 'parent'}
             messagesById={messagesById}
             postMessage={this.props.postMessage}
           />}
