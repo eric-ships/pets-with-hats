@@ -38,11 +38,11 @@ function MessageList({ ids, messagesById, postMessage }) {
         return (
           <li className="message is-dark is-small" key={`message-${id}`}>
             <div className="message-body">
-              <p className="is-size-6">
+              <p className="has-text-black">
                 {text}
               </p>
 
-              <p className="is-size-7">
+              <p className="has-text-grey" style={{ fontSize: '0.625rem' }}>
                 {moment(timestamp).fromNow()}
               </p>
 
