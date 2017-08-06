@@ -31,7 +31,7 @@ class Refetch extends Component {
   }
 
   countDown() {
-    if (this.state.seconds > 0) {
+    if (this.state.seconds > 1) {
       this.setState({ seconds: this.state.seconds - 1 })
     } else {
       clearInterval(this.intervalId)
