@@ -1,4 +1,6 @@
-import Messages from '../container/messages'
+import Loading from '../presentational/loading'
+import Messages from './messages'
+import Refetch from './refetch'
 import { getMessages, postMessage } from '../../mock-server'
 import React, { Component } from 'react'
 
@@ -11,6 +13,7 @@ class MessageBoard extends Component {
     this.storeMessages = this.storeMessages.bind(this)
 
     this.state = {
+      isGettingMessages: true,
       messagesById: {},
       originalMessageIds: [],
     }
@@ -47,8 +50,20 @@ class MessageBoard extends Component {
   }
 
   getMessages() {
-    getMessages(messages => {
-      this.storeMessages(messages)
+    getMessages(response => {
+      if (response.status === 500) {
+        this.setState({
+          hasError: true,
+          isGettingMessages: false,
+        })
+      } else {
+        this.storeMessages(response)
+      }
+    })
+
+    this.setState({
+      hasError: false,
+      isGettingMessages: true,
     })
   }
 
@@ -94,19 +109,33 @@ class MessageBoard extends Component {
     })
 
     this.setState({
+      isGettingMessages: false,
       messagesById,
       originalMessageIds,
     })
   }
 
   render() {
-    const { messagesById, originalMessageIds } = this.state
+    const {
+      hasError,
+      isGettingMessages,
+      messagesById,
+      originalMessageIds,
+    } = this.state
+
+    if (isGettingMessages) {
+      return <Loading />
+    }
+
+    if (hasError) {
+      return <Refetch callback={this.getMessages} />
+    }
 
     return (
       <div>
-        <h3 className="subtitle is-3">
+        <h5 className="subtitle is-5">
           {'Message Board'}
-        </h3>
+        </h5>
 
         <Messages
           ids={originalMessageIds}

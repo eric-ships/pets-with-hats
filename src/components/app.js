@@ -4,9 +4,9 @@ import React from 'react'
 function App() {
   return (
     <div style={{ margin: '2rem auto', maxWidth: '800px' }}>
-      <h1 className="title is-1">
+      <h3 className="title is-3">
         {'Pets with Hats'}
-      </h1>
+      </h3>
 
       <MessageBoard />
     </div>

@@ -59,8 +59,13 @@ generateMessages()
  */
 export function getMessages(callback) {
   setTimeout(function() {
-    callback(messages)
-  }, faker.random.number({ min: 2000, max: 8000 }))
+    const response =
+      faker.random.number(5) > 1 // mock error
+        ? messages
+        : { status: 500 }
+
+    callback(response)
+  }, faker.random.number({ min: 1200, max: 4800 }))
 }
 
 /**
@@ -78,5 +83,5 @@ export function postMessage(message, callback) {
     message.timestamp = Date.parse(new Date())
     messages.push(message)
     callback(message)
-  }, faker.random.number({ min: 2000, max: 8000 }))
+  }, faker.random.number({ min: 1200, max: 4800 }))
 }
