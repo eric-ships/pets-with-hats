@@ -2,6 +2,15 @@ import faker from 'faker'
 
 const messages = []
 
+/**
+ * Mock error
+ *
+ * @return {Boolean}
+ */
+function checkIfError() {
+  return faker.random.number(5) > 1
+}
+
 function generateMessages() {
   const originalMessageCount = faker.random.number({ min: 12, max: 24 }) - 1
   const timestamps = {}
@@ -49,6 +58,13 @@ function generateMessages() {
   }
 }
 
+/**
+ * @return {Number} milliseconds
+ */
+function mockAsyncTime() {
+  return faker.random.number({ min: 1200, max: 3600 })
+}
+
 generateMessages()
 
 /**
@@ -59,13 +75,9 @@ generateMessages()
  */
 export function getMessages(callback) {
   setTimeout(function() {
-    const response =
-      faker.random.number(5) > 1 // mock error
-        ? messages
-        : { status: 500 }
-
+    const response = checkIfError() ? messages : { status: 500 }
     callback(response)
-  }, faker.random.number({ min: 1200, max: 3600 }))
+  }, mockAsyncTime())
 }
 
 /**
@@ -79,9 +91,18 @@ export function getMessages(callback) {
  */
 export function postMessage(message, callback) {
   setTimeout(function() {
-    message.id = messages.length
-    message.timestamp = Date.parse(new Date())
-    messages.push(message)
-    callback(message)
-  }, faker.random.number({ min: 1200, max: 3600 }))
+    if (checkIfError()) {
+      callback({ status: 500 })
+      return
+    }
+
+    const newMessage = {
+      ...message,
+      id: messages.length,
+      timestamp: Date.parse(new Date()),
+    }
+
+    messages.push(newMessage)
+    callback(newMessage)
+  }, mockAsyncTime())
 }

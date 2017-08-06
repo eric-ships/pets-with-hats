@@ -74,7 +74,11 @@ class MessageBoard extends Component {
    */
   postMessage(message) {
     postMessage(message, response => {
-      this.addMessage(response)
+      if (response.status === 500) {
+        this.postMessage(message)
+      } else {
+        this.addMessage(response)
+      }
     })
   }
 
