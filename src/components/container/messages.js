@@ -1,10 +1,8 @@
 import MessageList from '../presentational/message-list'
-import { postMessage } from '../../mock-server'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 const propTypes = {
-  areOriginalMessageIds: PropTypes.bool,
   ids: PropTypes.arrayOf(PropTypes.number),
   messagesById: PropTypes.shape({
     id: PropTypes.shape({
@@ -14,11 +12,13 @@ const propTypes = {
       timestamp: PropTypes.number.isRequired,
     }),
   }).isRequired,
+  parent: PropTypes.number,
+  postMessage: PropTypes.func.isRequired,
 }
 
 const defaultProps = {
   ids: [],
-  areOriginalMessageIds: false,
+  parent: null,
 }
 
 class Messages extends Component {
@@ -33,7 +33,7 @@ class Messages extends Component {
 
     this.state = {
       isReplying: false,
-      isVisible: props.areOriginalMessageIds,
+      isVisible: props.parent === null,
       reply: '',
     }
   }
@@ -59,15 +59,10 @@ class Messages extends Component {
   postMessage(event) {
     event.preventDefault()
 
-    postMessage(
-      {
-        message: this.state.reply.trim(),
-        parent: 0,
-      },
-      function(message) {
-        console.log(message)
-      },
-    )
+    this.props.postMessage({
+      message: this.state.reply.trim(),
+      parent: this.props.parent,
+    })
   }
 
   setReply(event) {
@@ -82,14 +77,14 @@ class Messages extends Component {
   }
 
   render() {
-    const { areOriginalMessageIds, ids, messagesById } = this.props
+    const { parent, ids, messagesById } = this.props
     const { isReplying, isVisible, reply } = this.state
     const isEmpty = ids.length === 0
     const isReplyable = isVisible || isReplying
 
     return (
       <div className="messages">
-        {!areOriginalMessageIds &&
+        {parent !== null &&
           <div className="is-clearfix">
             <button
               className="button is-outlined is-small is-pulled-right is-primary"
@@ -110,7 +105,12 @@ class Messages extends Component {
             </button>
           </div>}
 
-        {isVisible && <MessageList ids={ids} messagesById={messagesById} />}
+        {isVisible &&
+          <MessageList
+            ids={ids}
+            messagesById={messagesById}
+            postMessage={this.props.postMessage}
+          />}
 
         {isReplyable &&
           <form onSubmit={this.postMessage}>

@@ -1,11 +1,13 @@
-import { getMessages } from '../../mock-server'
 import Messages from '../container/messages'
+import { getMessages, postMessage } from '../../mock-server'
 import React, { Component } from 'react'
 
 class MessageBoard extends Component {
   constructor() {
     super()
+    this.addMessage = this.addMessage.bind(this)
     this.getMessages = this.getMessages.bind(this)
+    this.postMessage = this.postMessage.bind(this)
     this.storeMessages = this.storeMessages.bind(this)
 
     this.state = {
@@ -18,9 +20,46 @@ class MessageBoard extends Component {
     this.getMessages()
   }
 
+  /**
+   * @param {Object} message
+   * @param {Number} message.id
+   * @param {String} message.message
+   * @param {Number} message.parent
+   * @param {String} message.timestamp
+   */
+  addMessage(message) {
+    const { messagesById } = this.state
+    const { id, parent } = message
+
+    messagesById[id] = message
+
+    const parentMessage = messagesById[parent] || {}
+    const { responses = [] } = parentMessage
+
+    responses.push(id)
+
+    messagesById[parent] = {
+      ...parentMessage,
+      responses,
+    }
+
+    this.setState({ messagesById })
+  }
+
   getMessages() {
     getMessages(messages => {
       this.storeMessages(messages)
+    })
+  }
+
+  /**
+   * @param {Object} message
+   * @param {String} message.message
+   * @param {Number} message.parent
+   */
+  postMessage(message) {
+    postMessage(message, response => {
+      this.addMessage(response)
     })
   }
 
@@ -70,9 +109,9 @@ class MessageBoard extends Component {
         </h3>
 
         <Messages
-          areOriginalMessageIds
           ids={originalMessageIds}
           messagesById={messagesById}
+          postMessage={this.postMessage}
         />
       </div>
     )

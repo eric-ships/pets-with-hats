@@ -12,9 +12,10 @@ const propTypes = {
       timestamp: PropTypes.number.isRequired,
     }),
   }).isRequired,
+  postMessage: PropTypes.func.isRequired,
 }
 
-function MessageList({ ids, messagesById }) {
+function MessageList({ ids, messagesById, postMessage }) {
   /**
    * @param {Object} msg1
    * @param {Object} msg2
@@ -45,7 +46,12 @@ function MessageList({ ids, messagesById }) {
               </div>
 
               <div>
-                <Messages ids={responses} messagesById={messagesById} />
+                <Messages
+                  ids={responses}
+                  messagesById={messagesById}
+                  parent={id}
+                  postMessage={postMessage}
+                />
               </div>
             </div>
           </li>

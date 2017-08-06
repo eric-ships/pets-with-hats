@@ -8,8 +8,9 @@ function generateMessages() {
   const totalMessageCount =
     faker.random.number({ min: originalMessageCount, max: 480 }) - 1
 
+  // generate original messages
   for (let i = 0; i < originalMessageCount; i++) {
-    const timestamp = Date.parse(faker.date.past(2, '2017-08-05'))
+    const timestamp = Date.parse(faker.date.past(2, '2017-08-04'))
 
     messages.push({
       id: i,
@@ -20,16 +21,31 @@ function generateMessages() {
     timestamps[i] = timestamp
   }
 
-  for (let i = originalMessageCount; i <= totalMessageCount; i++) {
-    const parent = faker.random.number(totalMessageCount - 1)
-    const timestamp = Date.parse(faker.date.future(1, Date(timestamps[parent])))
+  // generate responses
+  const toBeVisited = messages.slice()
 
-    messages.push({
-      id: i,
-      message: faker.hacker.phrase(),
-      parent,
-      timestamp,
-    })
+  while (toBeVisited.length > 0) {
+    const parentMessage = toBeVisited.shift()
+    const reponseCount =
+      faker.random.number(totalMessageCount - messages.length) /
+      toBeVisited.length
+
+    for (let i = 0; i < reponseCount; i++) {
+      const timestamp = Date.parse(
+        faker.date.between(new Date(parentMessage.timestamp), new Date()),
+      )
+
+      const message = {
+        id: messages.length - 1,
+        message: faker.hacker.phrase(),
+        parent: parentMessage.id,
+        timestamp,
+      }
+
+      messages.push(message)
+
+      toBeVisited.push(message)
+    }
   }
 }
 
@@ -59,6 +75,7 @@ export function getMessages(callback) {
 export function postMessage(message, callback) {
   setTimeout(function() {
     message.id = messages.length
+    message.timestamp = Date.parse(new Date())
     messages.push(message)
     callback(message)
   })
