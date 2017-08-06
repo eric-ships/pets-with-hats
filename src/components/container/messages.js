@@ -35,7 +35,7 @@ class Messages extends Component {
       * Because ids is not immutuable, keeping count here to check when new
       * message has come in from postMessage.
       */
-    this.count = props.ids.length
+    this.idsLength = props.ids.length
 
     this.state = {
       isReplying: false,
@@ -46,8 +46,8 @@ class Messages extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.isPostingReply && nextProps.ids.length > this.count) {
-      this.count = nextProps.ids.length
+    if (this.state.isPostingReply && nextProps.ids.length > this.idsLength) {
+      this.idsLength = nextProps.ids.length
 
       this.setState({
         isPostingReply: false,
