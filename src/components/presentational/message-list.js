@@ -43,7 +43,7 @@ function MessageList({ ids, messagesById, postMessage }) {
               </p>
 
               <p className="is-size-7">
-                {moment(timestamp).format('MMM D, YYYY, h:mm:ss a')}
+                {moment(timestamp).fromNow()}
               </p>
 
               <div>
