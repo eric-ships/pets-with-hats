@@ -124,9 +124,16 @@ class Messages extends Component {
               value={reply}
             />
 
-            <button type="submit">
-              {'Submit reply'}
-            </button>
+            <div className="is-clearfix">
+              <button
+                className="button is-primary is-small is-pulled-right"
+                disabled={reply.trim().length === 0}
+                style={{ marginTop: '0.5rem' }}
+                type="submit"
+              >
+                {'Submit reply'}
+              </button>
+            </div>
           </form>}
       </div>
     )
