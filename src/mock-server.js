@@ -37,6 +37,7 @@ generateMessages()
 
 /**
  * Mock GET
+ *
  * @param {Function} callback
  * @return {Object[]}
  */
@@ -48,8 +49,17 @@ export function getMessages(callback) {
 
 /**
  * POST mock
+ *
  * @param {Object} message
+ * @param {String} message.message
+ * @param {Number} message.parent
+ * @param {Object} callback
+ * @return {Object} message
  */
-export function postMessage() {
-  // TODO
+export function postMessage(message, callback) {
+  setTimeout(function() {
+    message.id = messages.length
+    messages.push(message)
+    callback(message)
+  })
 }

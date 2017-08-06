@@ -1,4 +1,5 @@
 import MessageList from '../presentational/message-list'
+import { postMessage } from '../../mock-server'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
@@ -24,6 +25,8 @@ class Messages extends Component {
   constructor(props) {
     super(props)
     this.focusReplyInput = this.focusReplyInput.bind(this)
+    this.postMessage = this.postMessage.bind(this)
+    this.setReply = this.setReply.bind(this)
     this.toggleVisibility = this.toggleVisibility.bind(this)
 
     this.replyInput = null
@@ -31,6 +34,7 @@ class Messages extends Component {
     this.state = {
       isReplying: false,
       isVisible: props.areOriginalMessageIds,
+      reply: '',
     }
   }
 
@@ -52,15 +56,34 @@ class Messages extends Component {
     })
   }
 
+  postMessage(event) {
+    event.preventDefault()
+
+    postMessage(
+      {
+        message: this.state.reply.trim(),
+        parent: 0,
+      },
+      function(message) {
+        console.log(message)
+      },
+    )
+  }
+
+  setReply(event) {
+    this.setState({ reply: event.target.value })
+  }
+
   toggleVisibility() {
     this.setState({
+      isReplying: false,
       isVisible: !this.state.isVisible,
     })
   }
 
   render() {
     const { areOriginalMessageIds, ids, messagesById } = this.props
-    const { isReplying, isVisible } = this.state
+    const { isReplying, isVisible, reply } = this.state
     const isEmpty = ids.length === 0
     const isReplyable = isVisible || isReplying
 
@@ -90,13 +113,21 @@ class Messages extends Component {
         {isVisible && <MessageList ids={ids} messagesById={messagesById} />}
 
         {isReplyable &&
-          <input
-            className="input is-small"
-            placeholder="Reply..."
-            ref={n => (this.replyInput = n)}
-            style={{ marginTop: '1rem' }}
-            type="text"
-          />}
+          <form onSubmit={this.postMessage}>
+            <input
+              className="input is-small"
+              onChange={this.setReply}
+              placeholder="Reply..."
+              ref={n => (this.replyInput = n)}
+              style={{ marginTop: '1rem' }}
+              type="text"
+              value={reply}
+            />
+
+            <button type="submit">
+              {'Submit reply'}
+            </button>
+          </form>}
       </div>
     )
   }
