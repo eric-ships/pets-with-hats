@@ -39,11 +39,18 @@ class Messages extends Component {
   render() {
     const { areOriginalMessageIds, ids, messagesById } = this.props
     const { isVisible } = this.state
+    const isEmpty = ids.length === 0
 
     return (
       <div className="messages">
         {!areOriginalMessageIds &&
-          <button disabled={ids.length === 0} onClick={this.toggleVisibility}>
+          <button
+            className={`button is-outlined is-small ${isEmpty
+              ? ''
+              : 'is-info'}`}
+            disabled={isEmpty}
+            onClick={this.toggleVisibility}
+          >
             {`${isVisible ? 'hide' : 'show'} responses (${ids.length})`}
           </button>}
 
