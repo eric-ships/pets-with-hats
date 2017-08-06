@@ -48,7 +48,7 @@ class Refetch extends Component {
           </p>
 
           <p>
-            {` Trying again in ${this.state.seconds} seconds...`}
+            {` Trying again in ${this.state.seconds} ${this.state.seconds > 1 ? 'seconds' : 'second'}...`}
           </p>
 
           <p>
