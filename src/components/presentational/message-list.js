@@ -1,4 +1,5 @@
 import Messages from '../container/messages'
+import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -37,13 +38,13 @@ function MessageList({ ids, messagesById, postMessage }) {
         return (
           <li className="message is-dark is-small" key={`message-${id}`}>
             <div className="message-body">
-              <div>
+              <p className="is-size-6">
                 {text}
-              </div>
+              </p>
 
-              <div>
-                {new Date(timestamp).toString()}
-              </div>
+              <p className="is-size-7">
+                {moment(timestamp).format('MMM D, YYYY, h:mm:ss a')}
+              </p>
 
               <div>
                 <Messages
