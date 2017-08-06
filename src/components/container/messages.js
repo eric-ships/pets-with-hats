@@ -31,10 +31,28 @@ class Messages extends Component {
 
     this.replyInput = null
 
+    /**
+      * Because ids is not immutuable, keeping count here to check when new
+      * message has come in from postMessage.
+      */
+    this.count = props.ids.length
+
     this.state = {
       isReplying: false,
+      isPostingReply: false,
       isVisible: props.parent === null,
       reply: '',
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.isPostingReply && nextProps.ids.length > this.count) {
+      this.count = nextProps.ids.length
+
+      this.setState({
+        isPostingReply: false,
+        reply: '',
+      })
     }
   }
 
@@ -63,6 +81,8 @@ class Messages extends Component {
       message: this.state.reply.trim(),
       parent: this.props.parent,
     })
+
+    this.setState({ isPostingReply: true })
   }
 
   setReply(event) {
@@ -78,9 +98,9 @@ class Messages extends Component {
 
   render() {
     const { parent, ids, messagesById } = this.props
-    const { isReplying, isVisible, reply } = this.state
+    const { isPostingReply, isVisible, reply } = this.state
     const isEmpty = ids.length === 0
-    const isReplyable = isVisible || isReplying
+    const isReplyable = isVisible && parent !== null
 
     return (
       <div className="messages">
@@ -105,17 +125,11 @@ class Messages extends Component {
             </button>
           </div>}
 
-        {isVisible &&
-          <MessageList
-            ids={ids}
-            messagesById={messagesById}
-            postMessage={this.props.postMessage}
-          />}
-
         {isReplyable &&
           <form onSubmit={this.postMessage}>
             <input
               className="input is-small"
+              disabled={isPostingReply}
               onChange={this.setReply}
               placeholder="Reply..."
               ref={n => (this.replyInput = n)}
@@ -126,8 +140,10 @@ class Messages extends Component {
 
             <div className="is-clearfix">
               <button
-                className="button is-primary is-small is-pulled-right"
-                disabled={reply.trim().length === 0}
+                className={`button is-primary is-small is-pulled-right ${isPostingReply
+                  ? 'is-loading'
+                  : ''}`}
+                disabled={isPostingReply || reply.trim().length === 0}
                 style={{ marginTop: '0.5rem' }}
                 type="submit"
               >
@@ -135,6 +151,13 @@ class Messages extends Component {
               </button>
             </div>
           </form>}
+
+        {isVisible &&
+          <MessageList
+            ids={ids}
+            messagesById={messagesById}
+            postMessage={this.props.postMessage}
+          />}
       </div>
     )
   }

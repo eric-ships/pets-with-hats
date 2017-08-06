@@ -48,6 +48,7 @@ function MessageList({ ids, messagesById, postMessage }) {
               <div>
                 <Messages
                   ids={responses}
+                  key={id}
                   messagesById={messagesById}
                   parent={id}
                   postMessage={postMessage}

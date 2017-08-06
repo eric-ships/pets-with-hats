@@ -60,7 +60,7 @@ generateMessages()
 export function getMessages(callback) {
   setTimeout(function() {
     callback(messages)
-  }, 500)
+  }, faker.random.number({ min: 2000, max: 8000 }))
 }
 
 /**
@@ -78,5 +78,5 @@ export function postMessage(message, callback) {
     message.timestamp = Date.parse(new Date())
     messages.push(message)
     callback(message)
-  })
+  }, faker.random.number({ min: 2000, max: 8000 }))
 }
