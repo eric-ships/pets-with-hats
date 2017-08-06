@@ -32,21 +32,26 @@ class MessageBoard extends Component {
 
     messages.forEach(function(message) {
       const { id, parent } = message
+      const { responses = [] } = messagesById[id] || {}
 
       if (parent === undefined) {
         originalMessageIds.push(id)
       } else {
-        const { responses = [] } = messagesById[parent] || {}
+        const parentMessage = messagesById[parent] || {}
+        const { responses: parentResponses = [] } = parentMessage
 
-        responses.push(id)
+        parentResponses.push(id)
 
         messagesById[parent] = {
-          ...messagesById[parent],
-          responses,
+          ...parentMessage,
+          responses: parentResponses,
         }
       }
 
-      messagesById[id] = message
+      messagesById[id] = {
+        ...message,
+        responses,
+      }
     })
 
     this.setState({

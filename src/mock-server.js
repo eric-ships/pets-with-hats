@@ -3,12 +3,12 @@ import faker from 'faker'
 const messages = []
 
 function generateMessages() {
-  const originalMessageCount = faker.random.number({ min: 1, max: 200 }) - 1
+  const originalMessageCount = faker.random.number({ min: 12, max: 24 }) - 1
   const timestamps = {}
   const totalMessageCount =
-    faker.random.number({ min: originalMessageCount, max: 1000 }) - 1
+    faker.random.number({ min: originalMessageCount, max: 480 }) - 1
 
-  for (let i = 0; i <= originalMessageCount; i++) {
+  for (let i = 0; i < originalMessageCount; i++) {
     const timestamp = Date.parse(faker.date.past(2, '2017-08-05'))
 
     messages.push({
