@@ -33,7 +33,7 @@ function MessageList({ ids, messagesById, postMessage }) {
   return (
     <ul className="messages-list" style={{ margin: '1rem 0 0 0' }}>
       {messages.map(message => {
-        const { id, message: text, responses, timestamp } = message // eslint-disable-line
+        const { id, message: text, responses, timestamp } = message
 
         return (
           <li className="message is-dark is-small" key={`message-${id}`}>
