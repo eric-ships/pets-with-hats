@@ -25,7 +25,7 @@ export const NUMBER_OF_RESPONSES = null
  * For example, setting this to 50 will give you 50% chance of error. Use this
  * to test error handling. 100 means that an error will always be returned.
  */
-export const PERCENT_CHANCE_OF_ERROR_GET_MESSAGES = 100
+export const PERCENT_CHANCE_OF_ERROR_GET_MESSAGES = 50
 
 /**
  * The percent change when POST-ing a message will return a status 500 error.
@@ -33,4 +33,4 @@ export const PERCENT_CHANCE_OF_ERROR_GET_MESSAGES = 100
  * For example, setting this to 50 will give you 50% chance of error. Use this
  * to test error handling. 100 means that an error will always be returned.
  */
-export const PERCENT_CHANCE_OF_ERROR_POST_MESSAGE = 100
+export const PERCENT_CHANCE_OF_ERROR_POST_MESSAGE = 50
