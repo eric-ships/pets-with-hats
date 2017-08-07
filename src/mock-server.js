@@ -4,7 +4,7 @@ import {
   NUMBER_OF_RESPONSES,
   PERCENT_CHANCE_OF_ERROR_GET_MESSAGES,
   PERCENT_CHANCE_OF_ERROR_POST_MESSAGE,
-} from './settings'
+} from './config'
 
 const messages = []
 

@@ -18,7 +18,20 @@ Install packages through `yarn ` or `npm install`.
 
 ### Up & Running
 
+To run locally in development:
+
 `yarn start`
+
+### Configuration
+
+The following options are configurable.
+
+- Number of original messages
+- Number of responses
+- Chance of error for GET /messages
+- Chance of error for POST /messages
+
+These options can be found in `config.js`.
 
 ### Linting
 
